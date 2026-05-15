@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>QBR Generator</title>
-</head>
-<body>
+<form method="POST" action="/generate_qbr" enctype="multipart/form-data">
 
-    <h1>QBR Generator</h1>
+    <label>Select Client:</label>
+    <select name="client">
+        <option value="acme">ACME</option>
+        <option value="openai">OpenAI</option>
+        <option value="globex">Globex</option>
+    </select>
 
-    <form action="/generate">
+    <br><br>
 
-        <label>Select Customer:</label>
+    <label>Upload Excel File:</label>
+    <input type="file" name="excel" accept=".xlsx,.xls" required>
 
-        <select name="customer">
+    <br><br>
 
-            <option>Acme</option>
-            <option>Globex</option>
-            <option>OpenAI</option>
+    <label>Upload PowerPoint Template:</label>
+    <input type="file" name="ppt" accept=".pptx" required>
 
-        </select>
+    <br><br>
 
-        <br><br>
+    <button type="submit">Generate QBR</button>
 
-        <button type="submit">
-            Generate QBR
-        </button>
-
-    </form>
-
-</body>
-</html>
+</form>

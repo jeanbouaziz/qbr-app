@@ -1,25 +1,24 @@
-from flask import Flask, render_template, request, send_file
+from flask import request, send_file
+import os
 
-from generate_qbr import create_qbr
+@app.route("/generate_qbr", methods=["POST"])
+def generate_qbr():
 
-app = Flask(__name__)
+    client = request.form.get("client")
+    excel_file = request.files["excel"]
+    ppt_file = request.files["ppt"]
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+    # Save uploaded files temporarily
+    excel_path = os.path.join("temp_excel.xlsx")
+    ppt_path = os.path.join("temp_template.pptx")
 
-@app.route("/generate")
-def generate():
+    excel_file.save(excel_path)
+    ppt_file.save(ppt_path)
 
-    customer = request.args.get("customer")
+    print("Client:", client)
+    print("Excel received:", excel_path)
+    print("PPT received:", ppt_path)
 
-    filename = create_qbr(customer)
+    return "Files received successfully"
 
-    return send_file(
-        filename,
-        as_attachment=True
-    )
 
-if __name__ == "__main__":
-    app.run(debug=True)
-    
