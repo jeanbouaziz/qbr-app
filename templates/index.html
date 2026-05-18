@@ -4,18 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QBR Generator</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'DM Sans', sans-serif;
             background: #f5f4f0;
             min-height: 100vh;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             padding: 2rem 1rem;
         }
 
@@ -24,7 +34,9 @@
             max-width: 520px;
         }
 
-        .header { margin-bottom: 2rem; }
+        .header {
+            margin-bottom: 2rem;
+        }
 
         .eyebrow {
             font-size: 11px;
@@ -43,7 +55,10 @@
             line-height: 1.2;
         }
 
-        .subtitle { font-size: 14px; color: #888; }
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+        }
 
         .card {
             background: #fff;
@@ -62,60 +77,43 @@
             margin-bottom: 14px;
         }
 
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .client-option {
+        .client-input {
+            width: 100%;
+            padding: 14px;
             border: 1px solid #e8e6e0;
             border-radius: 10px;
-            padding: 10px 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #888;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
             background: #fafaf8;
-            user-select: none;
-            transition: all 0.15s ease;
+            color: #333;
+            outline: none;
         }
 
-        .client-option:hover { border-color: #ccc; color: #333; }
-
-        .client-option.selected {
-            border-color: #111;
-            background: #111;
-            color: #fff;
+        .client-input:focus {
+            border-color: #999;
         }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #ccc;
-            flex-shrink: 0;
-            transition: background 0.15s;
-        }
-
-        .client-option.selected .dot { background: #fff; }
 
         .upload-zone {
             border: 1px dashed #ddd;
             border-radius: 10px;
             padding: 14px;
+
             display: flex;
             align-items: center;
             gap: 12px;
+
             cursor: pointer;
             position: relative;
+
             background: #fafaf8;
+
             transition: all 0.15s ease;
         }
 
-        .upload-zone:hover { border-color: #bbb; background: #f5f5f2; }
+        .upload-zone:hover {
+            border-color: #bbb;
+            background: #f5f5f2;
+        }
 
         .upload-zone.has-file {
             border-style: solid;
@@ -138,9 +136,11 @@
             border-radius: 8px;
             background: #fff;
             border: 1px solid #e8e6e0;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             flex-shrink: 0;
             font-size: 16px;
         }
@@ -157,30 +157,46 @@
             margin-bottom: 2px;
         }
 
-        .upload-text .sub { font-size: 12px; color: #aaa; }
+        .upload-text .sub {
+            font-size: 12px;
+            color: #aaa;
+        }
 
-        .upload-zone.has-file .upload-text .title { color: #1e7e34; }
+        .upload-zone.has-file .upload-text .title {
+            color: #1e7e34;
+        }
 
         .generate-btn {
             width: 100%;
             padding: 14px;
+
             background: #111;
             color: #fff;
+
             border: none;
             border-radius: 12px;
+
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             font-weight: 500;
+
             cursor: pointer;
+
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+
             transition: opacity 0.15s;
         }
 
-        .generate-btn:hover { opacity: 0.85; }
-        .generate-btn:active { transform: scale(0.99); }
+        .generate-btn:hover {
+            opacity: 0.85;
+        }
+
+        .generate-btn:active {
+            transform: scale(0.99);
+        }
 
         .ai-badge {
             margin-left: auto;
@@ -195,7 +211,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+
             margin-top: 14px;
+
             font-size: 13px;
             color: #999;
         }
@@ -203,92 +221,148 @@
         .spinner {
             width: 14px;
             height: 14px;
+
             border: 2px solid #ddd;
             border-top-color: #999;
             border-radius: 50%;
+
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
     </style>
 </head>
 
 <body>
+
     <div class="container">
 
         <div class="header">
             <div class="eyebrow">Flowbox</div>
+
             <h1>QBR Generator</h1>
-            <p class="subtitle">Upload your data and get a presentation ready in seconds.</p>
+
+            <p class="subtitle">
+                Upload your data and get a presentation ready in seconds.
+            </p>
         </div>
 
-        <form method="POST" action="/generate_qbr" enctype="multipart/form-data" id="qbrForm">
+        <form
+            method="POST"
+            action="/generate_qbr"
+            enctype="multipart/form-data"
+            id="qbrForm"
+        >
 
             <div class="card">
-                <div class="section-label">Select client</div>
-                <div class="client-grid" id="clientGrid">
-                    <div class="client-option selected" data-value="acme">
-                        <span class="dot"></span> ACME
-                    </div>
-                    <div class="client-option" data-value="openai">
-                        <span class="dot"></span> OpenAI
-                    </div>
-                    <div class="client-option" data-value="globex">
-                        <span class="dot"></span> Globex
-                    </div>
+
+                <div class="section-label">
+                    Client name
                 </div>
-                <input type="hidden" name="client" id="clientInput" value="acme">
+
+                <input
+                    type="text"
+                    name="client"
+                    class="client-input"
+                    placeholder="Enter client name"
+                    required
+                >
+
             </div>
 
             <div class="card">
-                <div class="section-label">Upload data file</div>
+
+                <div class="section-label">
+                    Upload data file
+                </div>
+
                 <div class="upload-zone" id="excelZone">
-                    <input type="file" name="excel" accept=".xlsx,.xls" required id="excelInput">
-                    <div class="upload-icon">📊</div>
-                    <div class="upload-text">
-                        <div class="title" id="excelLabel">Excel data file</div>
-                        <div class="sub">.xlsx or .xls</div>
+
+                    <input
+                        type="file"
+                        name="excel"
+                        accept=".xlsx,.xls"
+                        required
+                        id="excelInput"
+                    >
+
+                    <div class="upload-icon">
+                        📊
                     </div>
+
+                    <div class="upload-text">
+                        <div class="title" id="excelLabel">
+                            Excel data file
+                        </div>
+
+                        <div class="sub">
+                            .xlsx or .xls
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
-            <button type="submit" class="generate-btn" id="submitBtn">
+            <button
+                type="submit"
+                class="generate-btn"
+                id="submitBtn"
+            >
+
                 ✦ Generate QBR
-                <span class="ai-badge">AI-powered</span>
+
+                <span class="ai-badge">
+                    AI-powered
+                </span>
+
             </button>
 
             <div class="loading" id="loadingState">
+
                 <div class="spinner"></div>
+
                 Generating your QBR — this may take a moment...
+
             </div>
 
         </form>
+
     </div>
 
     <script>
-        document.querySelectorAll('.client-option').forEach(option => {
-            option.addEventListener('click', () => {
-                document.querySelectorAll('.client-option').forEach(o => o.classList.remove('selected'));
-                option.classList.add('selected');
-                document.getElementById('clientInput').value = option.dataset.value;
-            });
-        });
 
         document.getElementById('excelInput').addEventListener('change', function () {
+
             const zone = document.getElementById('excelZone');
             const label = document.getElementById('excelLabel');
+
             if (this.files.length) {
+
                 zone.classList.add('has-file');
+
                 label.textContent = this.files[0].name;
             }
         });
 
         document.getElementById('qbrForm').addEventListener('submit', function () {
+
             document.getElementById('submitBtn').disabled = true;
+
             document.getElementById('submitBtn').style.opacity = '0.5';
+
             document.getElementById('loadingState').style.display = 'flex';
+
         });
+
     </script>
+
 </body>
 </html>
+
 

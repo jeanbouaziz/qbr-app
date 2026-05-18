@@ -11,6 +11,7 @@ from pptx.util import Inches
 from openpyxl import load_workbook
 
 import anthropic
+import os
 
 app = Flask(__name__)
 
@@ -107,7 +108,9 @@ def generate_qbr():
     # -------------------------------------------------
     print("⏳ Calling Claude API...")
 
-    anthropic_client = anthropic.Anthropic()
+    anthropic_client = anthropic.Anthropic(
+    api_key=os.environ["ANTHROPIC_API_KEY"]
+)
 
     kpi_summary = f"""
     All figures are averages over the last 12 months:
