@@ -1,0 +1,2 @@
+ppt_path = "templates/base_template.pptx"
+ppt = Presentation(ppt_path)

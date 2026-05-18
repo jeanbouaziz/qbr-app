@@ -1,3 +1,8 @@
 flask
 python-pptx
 gunicorn
+anthropic
+pandas
+matplotlib
+numpy
+openpyxl
